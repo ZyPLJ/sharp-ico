@@ -1,0 +1,122 @@
+@SharpIcoWeb_HostAddress = http://localhost:5235
+
+### 上传文件并转换为ICO（不带尺寸参数） 压测
+POST {{SharpIcoWeb_HostAddress}}/api/uploadDownload
+Content-Type: multipart/form-data; boundary=WebAppBoundary
+
+--WebAppBoundary
+Content-Disposition: form-data; name="file"; filename="1.png"
+Content-Type: image/png
+
+< ./1.png
+--WebAppBoundary--
+
+### 上传文件并转换为ICO（带尺寸参数） 压测
+POST {{SharpIcoWeb_HostAddress}}/api/uploadDownload
+Content-Type: multipart/form-data; boundary=WebAppBoundary
+
+--WebAppBoundary
+Content-Disposition: form-data; name="file"; filename="2.jpg"
+Content-Type: image/jpg
+
+< ./2.jpg
+--WebAppBoundary--
+
+### 上传文件并转换为ICO（带尺寸参数） 压测
+POST {{SharpIcoWeb_HostAddress}}/api/uploadDownload
+Content-Type: multipart/form-data; boundary=WebAppBoundary
+
+--WebAppBoundary
+Content-Disposition: form-data; name="file"; filename="3.png"
+Content-Type: image/png
+
+< ./3.png
+--WebAppBoundary--
+
+### 上传文件并转换为ICO（带尺寸参数） 压测
+POST {{SharpIcoWeb_HostAddress}}/api/uploadDownload
+Content-Type: multipart/form-data; boundary=WebAppBoundary
+
+--WebAppBoundary
+Content-Disposition: form-data; name="file"; filename="4.png"
+Content-Type: image/png
+
+< ./4.png
+--WebAppBoundary--
+
+### 上传文件并转换为ICO（带尺寸参数） 压测
+POST {{SharpIcoWeb_HostAddress}}/api/uploadDownload
+Content-Type: multipart/form-data; boundary=WebAppBoundary
+
+--WebAppBoundary
+Content-Disposition: form-data; name="file"; filename="5.png"
+Content-Type: image/png
+
+< ./5.png
+--WebAppBoundary--
+
+### 上传文件并转换为ICO（带尺寸参数） 压测
+POST {{SharpIcoWeb_HostAddress}}/api/uploadDownload
+Content-Type: multipart/form-data; boundary=WebAppBoundary
+
+--WebAppBoundary
+Content-Disposition: form-data; name="file"; filename="6.png"
+Content-Type: image/png
+
+< ./6.png
+--WebAppBoundary--
+
+### 上传文件并转换为ICO（带尺寸参数） 压测
+POST {{SharpIcoWeb_HostAddress}}/api/uploadDownload
+Content-Type: multipart/form-data; boundary=WebAppBoundary
+
+--WebAppBoundary
+Content-Disposition: form-data; name="file"; filename="7.png"
+Content-Type: image/png
+
+< ./7.png
+--WebAppBoundary--
+
+### 上传文件并转换为ICO（带尺寸参数） 压测
+POST {{SharpIcoWeb_HostAddress}}/api/uploadDownload
+Content-Type: multipart/form-data; boundary=WebAppBoundary
+
+--WebAppBoundary
+Content-Disposition: form-data; name="file"; filename="8.png"
+Content-Type: image/png
+
+< ./8.png
+--WebAppBoundary--
+
+### 上传文件并转换为ICO（带尺寸参数） 压测
+POST {{SharpIcoWeb_HostAddress}}/api/uploadDownload
+Content-Type: multipart/form-data; boundary=WebAppBoundary
+
+--WebAppBoundary
+Content-Disposition: form-data; name="file"; filename="9.png"
+Content-Type: image/png
+
+< ./9.png
+--WebAppBoundary--
+
+### 上传文件并转换为ICO（带尺寸参数） 压测
+POST {{SharpIcoWeb_HostAddress}}/api/uploadDownload
+Content-Type: multipart/form-data; boundary=WebAppBoundary
+
+--WebAppBoundary
+Content-Disposition: form-data; name="file"; filename="10.png"
+Content-Type: image/png
+
+< ./10.png
+--WebAppBoundary--
+
+### 上传文件并转换为ICO（带尺寸参数） 压测
+POST {{SharpIcoWeb_HostAddress}}/api/uploadDownload
+Content-Type: multipart/form-data; boundary=WebAppBoundary
+
+--WebAppBoundary
+Content-Disposition: form-data; name="file"; filename="11.jpg"
+Content-Type: image/jpg
+
+< ./11.jpg
+--WebAppBoundary--
