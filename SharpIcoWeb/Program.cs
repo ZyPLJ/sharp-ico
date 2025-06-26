@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
 using SharpIco;
+using SharpIcoWeb.Model;
 using SharpIcoWeb.Services;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -10,6 +11,17 @@ builder.Services.AddOpenApi();
 
 builder.Services.AddScoped<IFileService, FileService>();
 
+
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("CorsPolicy",
+        opt => opt.AllowAnyOrigin()
+            .AllowAnyHeader()
+            .AllowAnyMethod()
+            .WithExposedHeaders("http://localhost:5173/"));
+});
+
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -17,6 +29,8 @@ if (app.Environment.IsDevelopment())
 {
     app.MapOpenApi();
 }
+
+app.UseCors("CorsPolicy");
 
 app.UseHttpsRedirection();
 
@@ -27,7 +41,7 @@ app.MapPost("/api/uploadDownload", async ([FromForm] IFormFile file,[FromForm] s
         // 验证输入
         if (!fileService.IsFileValid(file))
         {
-            return Results.BadRequest("请上传有效文件,文件大小不能超过10MB");
+            return Results.Json(new ApiError { Message = "请上传有效文件,文件大小不能超过10MB" });
         }
 
         // 保存临时文件
@@ -56,7 +70,7 @@ app.MapPost("/api/uploadDownload", async ([FromForm] IFormFile file,[FromForm] s
     catch (Exception ex)
     {
         logger.LogError(ex, $"{DateTime.UtcNow} 处理文件时发生错误");
-        return Results.Problem("处理文件时发生错误");
+        return Results.Json(new ApiError { Message = ex.Message });
     }
 }).DisableAntiforgery();
 
