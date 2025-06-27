@@ -1,0 +1,18 @@
+﻿version: '3.8'
+
+services:
+  frontend:
+    build:
+      context: ./sharp-ico-vue   # 指向前端目录
+      dockerfile: Dockerfile
+    ports:
+      - "5173:5173"               # 前端映射到宿主机的5173端口
+    depends_on:
+      - backend
+
+  backend:
+    build:
+      context: .    # 指向后端目录
+      dockerfile: Dockerfile
+    ports:
+      - "5235:5235"            # 后端端口
