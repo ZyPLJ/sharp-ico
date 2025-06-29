@@ -15,4 +15,4 @@ services:
       context: .    # 指向后端目录
       dockerfile: Dockerfile
     ports:
-      - "5235:5235"            # 后端端口
+      - "5235"            # 后端端口
