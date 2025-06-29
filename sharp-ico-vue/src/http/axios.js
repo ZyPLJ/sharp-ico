@@ -4,7 +4,7 @@
 export default function $axios(options) {
     return new Promise((resolve, reject) => {
         const instance = axios.create({
-            baseURL: 'http://localhost:5235/api',
+            baseURL: '/api',
             responseType: options.responseType || 'json'
         })
         // response 响应拦截器
