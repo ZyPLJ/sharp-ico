@@ -178,4 +178,6 @@ npm run dev
 
 ## 相关链接
 
-* [SharpIco](https://github.com/star-plan/sharp-ico "SharpIco是一个纯 C# AOT 实现的轻量级图标生成工具")
+* [SharpIco](https://github.com/star-plan/sharp-ico "SharpIco是一个纯 C# AOT 实现的轻量级图标生成工具") 🌟 Star if useful!
+
+- [SharpIcoWeb](https://github.com/ZyPLJ/SharpIcoWeb)  🌟 Star if useful!
