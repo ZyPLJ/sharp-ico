@@ -10,7 +10,7 @@
 
 SharpIcoWeb是基于[SharpIco](https://github.com/star-plan/sharp-ico)开发的图片转ICO工具网站，支持上传png、jpg等图片转换为多尺寸的Ico图片文件。采用前后端分离技术。
 
-使用 `.NET Minimal API`开发，够轻量。
+后端接口使用 `.NET Minimal API`开发，够轻量。
 
 ## 🎯 应用场景
 
@@ -19,19 +19,19 @@ SharpIcoWeb是基于[SharpIco](https://github.com/star-plan/sharp-ico)开发的�
 * 个性化文件夹标识 📂
 
 ```html
-<link rel="icon" type="image/ico+xml" href="/logo.ico" />
+<link rel="icon" type="image/x-icon" href="/logo.ico" />
 ```
 
 ## ✨核心技术
 
-| **⚡** <br />**Vite+Vue+Element-Plus**<br /> **极速的开发服务器和高效的生产构建** |          **🗂️ → ❌** <br />**纯文件操作（无需SQLite/MySQL）**          |
-| :-------------------------------------------------------------------------------------------------: | :-----------------------------------------------------------------------------------: |
-|       🏗️<br />**.NET 9 MiniAPI** <br />**轻量级API开发，处理图像转换业务逻辑**       | <br />**🖼️** <br />**后端使用的强大图像处理库，<br />实现PNG/JPG转ICO** |
-|                        **🐳** <br />**可容器化（Docker 支持）**                        |              **📱 + 💻** <br />**响应式设计（适配移动端）**              |
+| **⚡** **Vite+Vue+Element-Plus** **极速的开发服务器和高效的生产构建** |    **🗂️ → ❌** **纯文件操作（无需SQLite/MySQL）**    |
+| :-------------------------------------------------------------------------------------: | :-----------------------------------------------------------------: |
+|              🏗️**.NET 9 MiniAPI****轻量级API开发，处理图像转换业务逻辑**              | **🖼️** **后端使用的强大图像处理库，实现PNG/JPG转ICO** |
+|                     **🐳** **可容器化（Docker 支持）**                     |        **📱 + 💻** **响应式设计（适配移动端）**        |
 
 ## ✅后续更新
 
-* [ ] 不同尺寸分别生成ICO文件。
+* [ ] 不同尺寸ICO,可分别生成ICO文件。
 * [ ] 前端显示ICO文件图标数量数据、大小、偏移等数据。
 * [ ] 批量转换功能。
 
@@ -39,10 +39,41 @@ SharpIcoWeb是基于[SharpIco](https://github.com/star-plan/sharp-ico)开发的�
 
 ### Docker部署
 
+<font color='red'>注意注释部分配置可能需要根据实际情况修改</font>
+
 #### Docker CLI
 
 ```dockerfile
 docker-compose up --build -d
+```
+
+#### default.conf
+
+```dsconfig
+server {
+    listen       5173; # 配置端口
+    server_name  0.0.0.0; # 修改为docker服务宿主机的ip 
+  
+    # 设置允许的最大请求体大小（例如 100MB）
+    client_max_body_size 100M;
+ 
+    location / {
+        root   /usr/share/nginx/html;
+        index  index.html index.htm;
+        try_files $uri $uri/ /index.html =404;
+    }
+  
+    location /api {
+        proxy_pass http://backend:5235;  # Docker 内部网络
+        proxy_set_header Host $host;
+        proxy_set_header X-Real-IP $remote_addr;
+    }
+ 
+    error_page   500 502 503 504  /50x.html;
+    location = /50x.html {
+        root   html;
+    }
+}
 ```
 
 #### Docker Compose
@@ -70,15 +101,23 @@ services:
 
 ### 手动部署
 
-```bash
-git clone https://github.com/ZyPLJ/SharpIcoWeb.git
+#### clone
 
+`git clone https://github.com/ZyPLJ/SharpIcoWeb.git`
+
+#### 后端运行
+
+```
 cd SharpIcoWeb
 
 dotnet build -c Release
 
 dotnet run
+```
 
+#### 前端运行
+
+```bash
 cd ..
 
 cd sharp-ico-vue
