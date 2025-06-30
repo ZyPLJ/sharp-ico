@@ -64,13 +64,13 @@ app.MapPost("/api/uploadDownload", async ([FromForm] IFormFile file,[FromForm] s
         // 删除临时文件
         fileService.DeleteFile(outputPath);
         
-        logger.LogInformation($"{DateTime.UtcNow} 文件 {file.FileName} 转换成功");
+        logger.LogInformation($"{DateTime.Now} 文件 {file.FileName} 转换成功");
         
         return Results.File(memoryStream, "image/x-icon");
     }
     catch (Exception ex)
     {
-        logger.LogError(ex, $"{DateTime.UtcNow} 处理文件时发生错误");
+        logger.LogError(ex, $"{DateTime.Now} 处理文件时发生错误");
         return Results.Json(new ApiError { Message = ex.Message });
     }
 }).DisableAntiforgery();
