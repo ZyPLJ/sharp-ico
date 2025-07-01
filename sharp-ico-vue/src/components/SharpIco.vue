@@ -93,10 +93,11 @@
 </template>
 
 <script setup>
-import {computed, ref} from 'vue';
-import {ElMessage} from 'element-plus';
-import {Download, RefreshRight, Upload} from '@element-plus/icons-vue';
-import {uploadFile} from '../http/modules/fileUpload'
+import { computed, ref } from 'vue';
+import { ElMessage } from 'element-plus';
+import { Download, RefreshRight, Upload } from '@element-plus/icons-vue';
+import { uploadFile } from '../http/modules/fileUpload'
+import { ElLoading } from 'element-plus'
 
 // 数据定义
 const imageUrl = ref('');
@@ -142,8 +143,14 @@ const convertToIco = async () => {
   }
 
   try {
+    const loading = ElLoading.service({
+      lock: true,
+      text: 'Loading',
+      background: 'rgba(0, 0, 0, 0.7)',
+    })
+    
     const response = await uploadFile(imageFile.value, selectedSizes.value)
-
+    
     // 检查响应类型
     const contentType = response.headers['content-type']
 
@@ -159,10 +166,12 @@ const convertToIco = async () => {
       link.click()
       document.body.removeChild(link)
       URL.revokeObjectURL(url)
-  
+
+      loading.close()
       ElMessage.success('ICO转换成功！')
     } else {
       const errorJson = JSON.parse(await response.data.text())
+      loading.close()
       ElMessage.error(errorJson?.message || '转换失败')
     }
   } catch (err) {
