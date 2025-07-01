@@ -218,6 +218,8 @@ const resetForm = () => {
   max-width: 1200px;
   margin: 20px auto;
   padding: 0 20px;
+  width: 100%; /* 添加这行 */
+  box-sizing: border-box; /* 添加这行 */
 }
 
 .main-card {
@@ -372,16 +374,36 @@ const resetForm = () => {
 }
 
 @media (max-width: 768px) {
-  .upload-section {
-    flex-direction: column;
+  .container {
+    padding: 0 10px;
   }
 
+  .main-card {
+    border-radius: 0;
+    box-shadow: none;
+  }
+
+  .header h1 {
+    font-size: 24px;
+  }
+
+  .upload-section {
+    flex-direction: column;
+    gap: 15px; /* 减小间距 */
+  }
+
+  .upload-area,
   .settings {
     width: 100%;
+    min-width: auto;
   }
 
   .preview-images {
     flex-direction: column;
+  }
+
+  .ico-sizes {
+    justify-content: center;
   }
 }
 </style>
