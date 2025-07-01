@@ -12,4 +12,6 @@ public interface IFileService
     Task<MemoryStream> ReadFileToMemoryAsync(string filePath);
     // 删除临时文件
     void DeleteFile(string tempFilePath);
+    // 将多个文件打包为ZIP
+    Task<MemoryStream> CreateZipFromFilesAsync(Dictionary<string, string> filePaths);
 }

@@ -38,6 +38,14 @@
                   />
                 </el-select>
               </el-form-item>
+              <el-form-item>
+                <el-switch
+                    v-model="isMultiSize"
+                    class="mb-2"
+                    active-text="分别生成"
+                    inactive-text="合并生成"
+                />
+              </el-form-item>
             </el-form>
           </div>
         </div>
@@ -105,6 +113,7 @@ const imageFile = ref(null);
 const availableSizes = [16, 24, 32, 48, 64, 128, 256];
 const selectedSizes = ref([32, 48, 64]);
 const backgroundColor = ref('rgba(255, 255, 255, 0)');
+const isMultiSize = ref(false);
 
 // 计算属性
 const previewSizes = computed(() => {
@@ -141,24 +150,38 @@ const convertToIco = async () => {
     ElMessage.warning('请先上传图片')
     return
   }
+  const loading = ElLoading.service({
+    lock: true,
+    text: 'Loading',
+    background: 'rgba(0, 0, 0, 0.7)',
+  })
 
+  
   try {
-    const loading = ElLoading.service({
-      lock: true,
-      text: 'Loading',
-      background: 'rgba(0, 0, 0, 0.7)',
-    })
-    
-    const response = await uploadFile(imageFile.value, selectedSizes.value)
-    
+    // 根据isMultiSize决定请求哪个端点
+    const response = await uploadFile(
+        imageFile.value,
+        selectedSizes.value,
+        isMultiSize.value
+    )
+
     // 检查响应类型
     const contentType = response.headers['content-type']
 
-    if (contentType && contentType.includes('image/x-icon')) {
-      const fileName = `icon_${Date.now()}.ico`
-      const blob = new Blob([response.data], { type: 'image/x-icon' })
+    if (contentType && (contentType.includes('image/x-icon') || contentType.includes('application/zip'))) {
+      let fileName, blobType
+
+      if (contentType.includes('image/x-icon')) {
+        fileName = `icon_${Date.now()}.ico`
+        blobType = 'image/x-icon'
+      } else {
+        fileName = `icons_${Date.now()}.zip`
+        blobType = 'application/zip'
+      }
+
+      const blob = new Blob([response.data], { type: blobType })
       const url = URL.createObjectURL(blob)
-  
+
       const link = document.createElement('a')
       link.href = url
       link.download = fileName
@@ -168,7 +191,7 @@ const convertToIco = async () => {
       URL.revokeObjectURL(url)
 
       loading.close()
-      ElMessage.success('ICO转换成功！')
+      ElMessage.success('转换成功！')
     } else {
       const errorJson = JSON.parse(await response.data.text())
       loading.close()
@@ -176,6 +199,7 @@ const convertToIco = async () => {
     }
   } catch (err) {
     console.error('转换失败:', err)
+    loading.close()
     ElMessage.error(err.response?.data?.message || err.message || '转换失败')
   }
 }

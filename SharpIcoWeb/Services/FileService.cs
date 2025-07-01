@@ -1,8 +1,15 @@
-﻿namespace SharpIcoWeb.Services;
+﻿using System.IO.Compression;
+
+namespace SharpIcoWeb.Services;
 
 public class FileService : IFileService, IDisposable
 {
     private readonly List<string> _tempFiles = new();
+    private readonly ILogger<FileService> _logger;
+    public FileService(ILogger<FileService> logger)
+    {
+        _logger = logger;
+    }
 
     public string GetTempDirectory()
     {
@@ -48,6 +55,44 @@ public class FileService : IFileService, IDisposable
     {
         if (File.Exists(tempFilePath))
             File.Delete(tempFilePath);
+    }
+
+    public async Task<MemoryStream> CreateZipFromFilesAsync(Dictionary<string, string> filePaths)
+    {
+        var zipMemoryStream = new MemoryStream();
+        
+        try
+        {
+            using (var zipArchive = new ZipArchive(zipMemoryStream, ZipArchiveMode.Create, leaveOpen: true))
+            {
+                foreach (var entry in filePaths)
+                {
+                    var fileNameInZip = entry.Key;
+                    var filePath = entry.Value;
+                    
+                    if (!File.Exists(filePath))
+                    {
+                        _logger.LogWarning($"文件 {filePath} 不存在，跳过添加到ZIP");
+                        continue;
+                    }
+                    
+                    var zipEntry = zipArchive.CreateEntry(fileNameInZip);
+                    await using var entryStream = zipEntry.Open();
+                    await using var fileStream = File.OpenRead(filePath);
+                    await fileStream.CopyToAsync(entryStream);
+                    
+                    _tempFiles.Add(entry.Value); // 记录待清理文件
+                }
+            }
+            
+            zipMemoryStream.Position = 0;
+            return zipMemoryStream;
+        }
+        catch
+        {
+            await zipMemoryStream.DisposeAsync();
+            throw;
+        }
     }
 
     // 实现IDisposable接口自动清理

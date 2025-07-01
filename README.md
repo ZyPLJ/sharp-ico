@@ -31,7 +31,7 @@ SharpIcoWeb是基于[SharpIco](https://github.com/star-plan/sharp-ico)开发的�
 
 ## ✅后续更新
 
-* [ ] 不同尺寸ICO,可分别生成ICO文件。
+* [x] 不同尺寸ICO,可分别生成ICO文件。
 * [ ] 前端显示ICO文件图标数量数据、大小、偏移等数据。
 * [ ] 批量转换功能。
 
@@ -145,11 +145,13 @@ npm run dev
 
 ```
 sharp-ico/
-├── SharpIco/               # 图标转换类库  
+├── SharpIco/               # 图标转换类库
+    ├── IcoEndpoints.cs     # 端点类
 │   ├── SharpIco.csproj
 ├── SharpIcoWeb/            # 后端Api项目
 │   ├── SharpIcoWeb.csproj
 ├── sharp-ico-vue           # 前端项目
+
 ```
 
 ### 开发环境

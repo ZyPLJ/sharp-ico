@@ -1,0 +1,15 @@
+@SharpIcoWeb_HostAddress = http://localhost:5235
+
+### 上传文件并转换为ICO（带尺寸参数）
+POST {{SharpIcoWeb_HostAddress}}/api/uploadDownload/sizes
+Content-Type: multipart/form-data; boundary=WebAppBoundary
+
+--WebAppBoundary
+Content-Disposition: form-data; name="file"; filename="1.png"
+Content-Type: image/png
+
+< ./1.png
+--WebAppBoundary
+Content-Disposition: form-data; name="sizes"
+
+16,32,48,64,128
