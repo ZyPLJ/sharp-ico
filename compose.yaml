@@ -13,6 +13,6 @@ services:
   backend:
     build:
       context: .    # 指向后端目录
-      dockerfile: Dockerfile
+      dockerfile: SharpIcoWeb/Dockerfile
     ports:
       - "5235"            # 后端端口
