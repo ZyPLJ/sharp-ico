@@ -106,7 +106,6 @@ import { ElMessage } from 'element-plus';
 import { Download, RefreshRight, Upload } from '@element-plus/icons-vue';
 import {dowloadFile, getImageInfo, uploadFile, uploadFileZip} from '../http/modules/fileUpload'
 import { ElLoading } from 'element-plus'
-import { notifications } from '../../notifications.js'
 import IcoInfoDisplay from './IcoInfoDisplay.vue';
 
 // 数据定义
@@ -251,10 +250,6 @@ const resetForm = () => {
   backgroundColor.value = 'rgba(255, 255, 255, 0)';
   icoFileInfo.value = null;
 };
-
-onMounted(() => {
-  ElNotification(notifications.welcome);
-})
 </script>
 
 <style scoped>
