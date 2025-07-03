@@ -74,7 +74,7 @@
               </div>
             </div>
           </div>
-
+          <IcoInfoDisplay :icoInfo="icoFileInfo" />
           <div class="action-buttons">
             <el-button type="primary" @click="convertToIco" :disabled="!imageUrl">
               <el-icon><Download /></el-icon>
@@ -101,25 +101,42 @@
 </template>
 
 <script setup>
-import {computed, onMounted, ref} from 'vue';
+import { computed, onMounted, ref } from 'vue';
 import { ElMessage } from 'element-plus';
 import { Download, RefreshRight, Upload } from '@element-plus/icons-vue';
-import { uploadFile } from '../http/modules/fileUpload'
+import {dowloadFile, getImageInfo, uploadFile, uploadFileZip} from '../http/modules/fileUpload'
 import { ElLoading } from 'element-plus'
 import { notifications } from '../../notifications.js'
+import IcoInfoDisplay from './IcoInfoDisplay.vue';
 
 // 数据定义
 const imageUrl = ref('');
 const imageFile = ref(null);
-const availableSizes = [16, 24, 32, 48, 64, 128, 256];
+const availableSizes = [16, 24, 32, 48, 64, 128, 256, 512, 1024];
 const selectedSizes = ref([32, 48, 64]);
 const backgroundColor = ref('rgba(255, 255, 255, 0)');
 const isMultiSize = ref(false);
-import { ElNotification } from 'element-plus'
+import { ElNotification } from 'element-plus';
+
+// ICO文件信息数据示例
+const icoFileInfo = ref(null);
+
+// 在转换后更新数据
+const updateIcoInfo = async (fileName) => {
+  const res = await getImageInfo(fileName)
+  icoFileInfo.value = null
+  if (res){
+    icoFileInfo.value = {
+      imageCount: res.data.length,
+      images: res.data
+    };
+  }
+};
 
 // 计算属性
 const previewSizes = computed(() => {
-  return selectedSizes.value.length > 0 ? selectedSizes.value.sort((a, b) => a - b) : [32];
+  // 删除 512 1024 尺寸，因为它们太大了
+  return selectedSizes.value.length > 0 ? selectedSizes.value.sort((a, b) => a - b).filter(size => size !== 512 && size !== 1024) : [32];
 });
 
 // 处理文件上传
@@ -138,7 +155,7 @@ const handleFileChange = (file) => {
   }
 
   if (file.raw.size / 1024 / 1024 > 10) {
-    ElMessage.error('图片大小不能超过 10MB!')
+    ElMessage.error('图片大小不能超过 10MB!');
     return false
   }
 
@@ -149,61 +166,81 @@ const handleFileChange = (file) => {
 // 转换为ICO并下载
 const convertToIco = async () => {
   if (!imageFile.value) {
-    ElMessage.warning('请先上传图片')
+    ElMessage.warning('请先上传图片');
     return
   }
+
   const loading = ElLoading.service({
     lock: true,
     text: 'Loading',
     background: 'rgba(0, 0, 0, 0.7)',
   })
 
-  
   try {
-    // 根据isMultiSize决定请求哪个端点
-    const response = await uploadFile(
-        imageFile.value,
-        selectedSizes.value,
-        isMultiSize.value
-    )
-
-    // 检查响应类型
-    const contentType = response.headers['content-type']
-
-    if (contentType && (contentType.includes('image/x-icon') || contentType.includes('application/zip'))) {
-      let fileName, blobType
-
-      if (contentType.includes('image/x-icon')) {
-        fileName = `icon_${Date.now()}.ico`
-        blobType = 'image/x-icon'
-      } else {
-        fileName = `icons_${Date.now()}.zip`
-        blobType = 'application/zip'
-      }
-
-      const blob = new Blob([response.data], { type: blobType })
-      const url = URL.createObjectURL(blob)
-
-      const link = document.createElement('a')
-      link.href = url
-      link.download = fileName
-      document.body.appendChild(link)
-      link.click()
-      document.body.removeChild(link)
-      URL.revokeObjectURL(url)
-
-      loading.close()
-      ElMessage.success('转换成功！')
-    } else {
-      const errorJson = JSON.parse(await response.data.text())
-      loading.close()
-      ElMessage.error(errorJson?.message || '转换失败')
-    }
+    const result = await (isMultiSize.value ? processMultiSize() : processSingleSize());
+    handleDownload(result);
+    ElMessage.success('转换成功！');
   } catch (err) {
-    console.error('转换失败:', err)
+    const errorMessage = err.response?.data?.message || err.message || '转换失败'
+    ElMessage.error(errorMessage);
+  } finally {
     loading.close()
-    ElMessage.error(err.response?.data?.message || err.message || '转换失败')
   }
+}
+
+// 获取尺寸合并的ICO
+const processSingleSize = async () => {
+  const response = await uploadFile(imageFile.value, selectedSizes.value);
+
+  if (response.statusCode !== 200) {
+    throw new Error(response.message || '转换失败');
+  }
+
+  const path = response.data;
+  await updateIcoInfo(path);
+  const res = await dowloadFile(path);
+
+  if (!res.headers['content-type']?.includes('image/x-icon')) {
+    throw new Error('无效的文件类型');
+  }
+
+  return {
+    data: res.data,
+    fileName: `icon_${Date.now()}.ico`,
+    blobType: 'image/x-icon'
+  }
+}
+
+// 获取多个单尺寸的ICO压缩包
+const processMultiSize = async () => {
+  icoFileInfo.value = null;
+  
+  const response = await uploadFileZip(imageFile.value, selectedSizes.value);
+
+  if (!response.headers['content-type']?.includes('application/zip')) {
+    const errorJson = await response.data.text().then(JSON.parse);
+    throw new Error(errorJson?.message || '转换失败');
+  }
+
+  return {
+    data: response.data,
+    fileName: `icons_${Date.now()}.zip`,
+    blobType: 'application/zip'
+  }
+}
+
+// 下载文件
+const handleDownload = ({ data, fileName, blobType }) => {
+  const blob = new Blob([data], { type: blobType });
+  const url = URL.createObjectURL(blob);
+
+  const link = document.createElement('a');
+  link.href = url;
+  link.download = fileName;
+  document.body.appendChild(link);
+  link.click();
+  document.body.removeChild(link);
+  URL.revokeObjectURL(url);
 }
 
 // 重置表单
@@ -212,10 +249,11 @@ const resetForm = () => {
   imageFile.value = null;
   selectedSizes.value = [32, 48, 64];
   backgroundColor.value = 'rgba(255, 255, 255, 0)';
+  icoFileInfo.value = null;
 };
 
 onMounted(() => {
-  ElNotification(notifications.welcome)
+  ElNotification(notifications.welcome);
 })
 </script>
 

@@ -14,4 +14,6 @@ public interface IFileService
     void DeleteFile(string tempFilePath);
     // 将多个文件打包为ZIP
     Task<MemoryStream> CreateZipFromFilesAsync(Dictionary<string, string> filePaths);
+    // 在wwwroot目录创建生成后的文件目录
+    string GetRootDirectory();
 }

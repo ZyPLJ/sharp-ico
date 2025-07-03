@@ -5,6 +5,7 @@
       <Path>sharp-ico-vue</Path>
     </attachedFolders>
     <explicitIncludes>
+      <Path>SharpIcoWeb/wwwroot/temp</Path>
       <Path>sharp-ico-vue</Path>
     </explicitIncludes>
     <explicitExcludes />
