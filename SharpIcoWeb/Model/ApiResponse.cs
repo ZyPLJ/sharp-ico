@@ -1,6 +1,6 @@
 ﻿namespace SharpIcoWeb.Model;
 
-public class ApiError
+public class ApiResponse
 {
     public int StatusCode { get; set; } = 200;
     public bool Successful { get; set; } = true;

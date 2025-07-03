@@ -95,6 +95,14 @@ public class FileService : IFileService, IDisposable
         }
     }
 
+    public string GetRootDirectory()
+    {
+        // wwwrooo/temp
+        var rootDir = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "temp");
+        Directory.CreateDirectory(rootDir);
+        return rootDir;
+    }
+
     // 实现IDisposable接口自动清理
     public void Dispose()
     {

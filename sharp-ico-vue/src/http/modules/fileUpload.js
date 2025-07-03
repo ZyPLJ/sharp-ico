@@ -1,22 +1,51 @@
 ﻿import axios from '../axios'
 
-export const uploadFile = (file, sizes = null, isMultiSize = false) => {
+export const uploadFileZip = (file, sizes = null) => {
     const formData = new FormData()
     formData.append('file', file)
     if (sizes) {
         formData.append('sizes', sizes)
     }
-
-    // 根据isMultiSize决定请求哪个端点
-    const url = isMultiSize ? '/uploadDownload/sizes' : '/uploadDownload'
-
+    
     return axios({
         method: 'post',
-        url: url,
+        url: '/uploadDownload/sizes',
         data: formData,
         headers: {
             'Content-Type': 'multipart/form-data'
         },
         responseType: 'blob'
+    })
+}
+
+export const uploadFile = (file, sizes = null) => {
+    const formData = new FormData()
+    formData.append('file', file)
+    if (sizes) {
+        formData.append('sizes', sizes)
+    }
+    
+    return axios({
+        method: 'post',
+        url: '/uploadDownload',
+        data: formData,
+        headers: {
+            'Content-Type': 'multipart/form-data'
+        }
+    })
+}
+
+export const dowloadFile = (fileName) => {
+    return axios({
+        method: 'get',
+        url: `/downloads/${fileName}`,
+        responseType: 'blob'
+    })
+}
+
+export const getImageInfo = (fileName) => {
+    return axios({
+        method: 'get',
+        url: `/getImageInfo/${fileName}`
     })
 }

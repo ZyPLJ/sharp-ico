@@ -4,7 +4,7 @@ using SixLabors.ImageSharp.Formats.Png;
 namespace SharpIco;
 
 public static class IcoInspector {
-    public static void Inspect(string icoPath) {
+    public static List<ImageInfo> Inspect(string icoPath) {
         using var fs = new FileStream(icoPath, FileMode.Open, FileAccess.Read);
         using var reader = new BinaryReader(fs);
 
@@ -77,7 +77,8 @@ public static class IcoInspector {
         }
 
         // 输出图像信息
-        DisplayImageInfo(imageEntries);
+        // DisplayImageInfo(imageEntries);
+        return DisplayImageInfoNew(imageEntries);
     }
 
     private static (int width, int height) GetImageDimensions(byte[] imageData) {
@@ -136,6 +137,37 @@ public static class IcoInspector {
         }
     }
 
+    private static List<ImageInfo> DisplayImageInfoNew(List<ImageEntry> entries)
+    {
+        // 按索引排序，保持原始顺序
+        var sortedEntries = entries.OrderBy(e => e.Index).ToList();
+        List <ImageInfo> newList = new List<ImageInfo>();
+        
+        foreach (var entry in sortedEntries) {
+            ImageInfo imageInfo = new ImageInfo();
+            // 文件头中的尺寸信息
+            int headerWidth = entry.Width == 0 ? 256 : entry.Width;
+            int headerHeight = entry.Height == 0 ? 256 : entry.Height;
+
+            // 实际图像尺寸
+            int actualWidth = entry.ActualWidth > 0 ? entry.ActualWidth : headerWidth;
+            int actualHeight = entry.ActualHeight > 0 ? entry.ActualHeight : headerHeight;
+
+            imageInfo.Width = actualWidth;
+            imageInfo.Height = actualHeight;
+            imageInfo.Bpp = entry.BitCount;
+            imageInfo.Size = entry.SizeInBytes;
+            imageInfo.Offset = entry.ImageOffset;
+
+            // 当实际尺寸与头部信息不一致时，显示提示
+            if (actualWidth != headerWidth || actualHeight != headerHeight) {
+                imageInfo.Warning = $"注意: 文件头中指定的尺寸为{headerWidth}x{headerHeight}，但实际图像尺寸为{actualWidth}x{actualHeight}";
+            }
+            newList.Add(imageInfo);
+        }
+        return newList;
+    }
+    
     private class ImageEntry {
         public int Index { get; set; }
         public byte Width { get; set; }
