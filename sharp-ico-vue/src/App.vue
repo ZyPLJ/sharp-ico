@@ -2,8 +2,10 @@
 import SharpIco from './components/SharpIco.vue'
 import { VERSION, notifications } from '../notifications.js'
 import {ElMessageBox, ElNotification} from 'element-plus';
+import ThemeToggle from './components/ThemeToggle.vue';
+import { useDark } from '@vueuse/core';
 
-
+const isDark = useDark();
 // 检查版本更新
 function checkVersionUpdate() {
   ElNotification(notifications.welcome);
@@ -11,11 +13,11 @@ function checkVersionUpdate() {
 
   if (lastVersion !== VERSION) {
     // 版本不一致时显示提示
-    localStorage.setItem('app_version', VERSION)
+    localStorage.setItem('app_version', VERSION);
 
     // 如果是首次访问（无lastVersion）则不提示更新
     if (lastVersion) {
-      showUpdateNotification()
+      showUpdateNotification();
     }
   }
 }
@@ -32,13 +34,17 @@ function showUpdateNotification() {
 }
 
 // 应用启动时检查
-checkVersionUpdate()
+checkVersionUpdate();
 </script>
 
 <template>
-  <SharpIco />
+  <div :class="{ dark: isDark }">
+    <ThemeToggle />
+    <SharpIco />
+  </div>
 </template>
 
-<style scoped>
 
+<style>
+@import './assets/styles/theme.css';
 </style>

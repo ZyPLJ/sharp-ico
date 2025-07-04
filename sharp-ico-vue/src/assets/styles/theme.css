@@ -1,0 +1,20 @@
+/* src/assets/styles/theme.css */
+:root {
+    --color-background: #ffffff;
+    --color-text: #213547;
+    --color-primary: #646cff;
+    --color-border: #e2e2e3;
+}
+
+.dark {
+    --color-background: #1a1a1a;
+    --color-text: rgba(255, 255, 255, 0.87);
+    --color-primary: #535bf2;
+    --color-border: #2a2a2a;
+}
+
+body {
+    background-color: var(--color-background);
+    color: var(--color-text);
+    transition: background-color 0.3s, color 0.3s;
+}
