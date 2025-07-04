@@ -93,9 +93,9 @@
       <p>© {{ new Date().getFullYear() }} ICO图标转换工具 | 便捷、高效的在线图标转换服务</p>
       <div class="footer-content">
         <p>
-          <a href="../../ico.html" target="_blank" style="color: #909399;text-decoration: none;">关于我们</a>
+          <a href="../../ico.html" target="_blank" class="footer-link">关于我们</a>
           &nbsp;|&nbsp;
-          <a href="https://beian.miit.gov.cn/#/Integrated/index" target="_blank" rel="noopener noreferrer" style="color: #909399;text-decoration: none;">
+          <a href="https://beian.miit.gov.cn/#/Integrated/index" target="_blank" rel="noopener noreferrer" class="footer-link">
             湘ICP备2024053728号
           </a>
         </p>
@@ -419,6 +419,15 @@ const resetForm = () => {
   margin-top: 30px;
   color: #909399;
   font-size: 14px;
+}
+
+.footer-link {
+  color: #909399;
+  text-decoration: none;
+}
+
+.footer-link:hover {
+  color: #409eff;
 }
 
 @media (max-width: 768px) {
