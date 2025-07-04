@@ -91,6 +91,15 @@
 
     <footer class="footer">
       <p>© {{ new Date().getFullYear() }} ICO图标转换工具 | 便捷、高效的在线图标转换服务</p>
+      <div class="footer-content">
+        <p>
+          <a href="../../ico.html" target="_blank" style="color: #909399;text-decoration: none;">关于我们</a>
+          &nbsp;|&nbsp;
+          <a href="https://beian.miit.gov.cn/#/Integrated/index" target="_blank" rel="noopener noreferrer" style="color: #909399;text-decoration: none;">
+            湘ICP备2024053728号
+          </a>
+        </p>
+      </div>
     </footer>
   </div>
   <a href="https://github.com/ZyPLJ/SharpIcoWeb" target="_blank" aria-label="View source on Github" class="github-corner">
