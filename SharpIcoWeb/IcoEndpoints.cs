@@ -14,13 +14,13 @@ public static class IcoEndpoints
         // 上传图片文件并返回文件名
         group.MapPost("/uploadDownload", UploadDownload)
             .DisableAntiforgery();
-        
+
         // 获取图片信息
         group.MapGet("/getImageInfo/{filename}", GetImageInfo);
-        
+
         // 下载文件
         group.MapGet("/downloads/{fileName}", DowloadFile);
-        
+
         // 上传图片文件并返回文件名和不同尺寸的ICO文件的ZIP文件
         group.MapPost("/uploadDownload/sizes", UploadDownloadSizes)
             .DisableAntiforgery();
@@ -53,9 +53,9 @@ public static class IcoEndpoints
                 IcoGenerator.GenerateIcon(tempFilePath, outputPath, sizesArray);
             else
                 IcoGenerator.GenerateIcon(tempFilePath, outputPath);
-            
+
             logger.LogInformation($"{DateTime.Now} 文件 {file.FileName} 转换成功");
-            
+
             // 返回文件路径
             return Results.Json(new ApiResponse { Message = "转换成功", Data = outName });
         }
@@ -122,10 +122,9 @@ public static class IcoEndpoints
             return Results.Json(new ApiResponse { Message = ex.Message });
         }
     }
-    
-    
 
-    private static IResult GetImageInfo(string filename,IFileService fileService,
+
+    private static IResult GetImageInfo(string filename, IFileService fileService,
         ILogger<Program> logger)
     {
         string path = Path.Combine(fileService.GetRootDirectory(), filename);
@@ -133,9 +132,10 @@ public static class IcoEndpoints
         {
             return Results.Json(new ApiResponse { Message = "文件不存在", StatusCode = 400 });
         }
+
         List<ImageInfo> images = IcoInspector.Inspect(path);
         logger.LogInformation($"{DateTime.Now} 文件 {path} 信息获取成功");
-        return Results.Json(new ApiResponse { Message = "获取成功", Data = images , StatusCode = 200 });
+        return Results.Json(new ApiResponse { Message = "获取成功", Data = images, StatusCode = 200 });
     }
 
     private static async Task<IResult> DowloadFile(string fileName, IFileService fileService, ILogger<Program> logger)
@@ -143,7 +143,7 @@ public static class IcoEndpoints
         var filePath = Path.Combine(fileService.GetRootDirectory(), fileName);
         if (!File.Exists(filePath))
             return Results.Json(new ApiResponse { Message = "文件不存在", StatusCode = 400 });
-        
+
         var memoryStream = await fileService.ReadFileToMemoryAsync(filePath);
         // 删除文件
         fileService.DeleteFile(filePath);

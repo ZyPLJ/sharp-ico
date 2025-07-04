@@ -6,7 +6,7 @@
         <p class="subtitle">快速将您的图片转换多尺寸ICO图标格式</p>
       </div>
 
-      <el-divider />
+      <el-divider/>
 
       <div class="content">
         <div class="upload-section">
@@ -18,7 +18,9 @@
               :on-change="handleFileChange"
               accept="image/png,image/jpeg"
           >
-            <el-icon class="upload-icon"><Upload /></el-icon>
+            <el-icon class="upload-icon">
+              <Upload/>
+            </el-icon>
             <div class="upload-text">
               <span>拖拽图片到此处或点击上传</span>
               <p class="upload-hint">支持PNG、JPG、jpeg格式</p>
@@ -57,31 +59,35 @@
               <div class="original-preview">
                 <h4>原始图片</h4>
                 <div class="image-container">
-                  <img :src="imageUrl" alt="原始图片" />
+                  <img :src="imageUrl" alt="原始图片"/>
                 </div>
               </div>
 
-              <el-divider direction="vertical" />
+              <el-divider direction="vertical"/>
 
               <div class="ico-preview">
                 <h4>ICO预览</h4>
                 <div class="ico-sizes">
                   <div v-for="size in previewSizes" :key="size" class="ico-size-preview">
-                    <img :src="imageUrl" :style="`width: ${size}px; height: ${size}px`" />
+                    <img :src="imageUrl" :style="`width: ${size}px; height: ${size}px`"/>
                     <span>{{ size }}x{{ size }}</span>
                   </div>
                 </div>
               </div>
             </div>
           </div>
-          <IcoInfoDisplay :icoInfo="icoFileInfo" />
+          <IcoInfoDisplay :icoInfo="icoFileInfo"/>
           <div class="action-buttons">
             <el-button type="primary" @click="convertToIco" :disabled="!imageUrl">
-              <el-icon><Download /></el-icon>
+              <el-icon>
+                <Download/>
+              </el-icon>
               转换并下载ICO
             </el-button>
             <el-button @click="resetForm">
-              <el-icon><RefreshRight /></el-icon>
+              <el-icon>
+                <RefreshRight/>
+              </el-icon>
               重置
             </el-button>
           </div>
@@ -95,28 +101,34 @@
         <p>
           <a href="../../ico.html" target="_blank" class="footer-link">关于我们</a>
           &nbsp;|&nbsp;
-          <a href="https://beian.miit.gov.cn/#/Integrated/index" target="_blank" rel="noopener noreferrer" class="footer-link">
+          <a href="https://beian.miit.gov.cn/#/Integrated/index" target="_blank" rel="noopener noreferrer"
+             class="footer-link">
             湘ICP备2024053728号
           </a>
         </p>
       </div>
     </footer>
   </div>
-  <a href="https://github.com/ZyPLJ/SharpIcoWeb" target="_blank" aria-label="View source on Github" class="github-corner">
+  <a href="https://github.com/ZyPLJ/SharpIcoWeb" target="_blank" aria-label="View source on Github"
+     class="github-corner">
     <svg width="80" height="80" viewBox="0 0 250 250" aria-hidden="true" style="fill: #151513; color: #fff;">
       <path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path>
-      <path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" class="octo-arm" style="transform-origin: 130px 106px;"></path>
-      <path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"></path>
+      <path
+          d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2"
+          fill="currentColor" class="octo-arm" style="transform-origin: 130px 106px;"></path>
+      <path
+          d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z"
+          fill="currentColor" class="octo-body"></path>
     </svg>
   </a>
 </template>
 
 <script setup>
-import { computed, onMounted, ref } from 'vue';
-import { ElMessage } from 'element-plus';
-import { Download, RefreshRight, Upload } from '@element-plus/icons-vue';
+import {computed, onMounted, ref} from 'vue';
+import {ElMessage} from 'element-plus';
+import {Download, RefreshRight, Upload} from '@element-plus/icons-vue';
 import {dowloadFile, getImageInfo, uploadFile, uploadFileZip} from '../http/modules/fileUpload'
-import { ElLoading } from 'element-plus'
+import {ElLoading} from 'element-plus'
 import IcoInfoDisplay from './IcoInfoDisplay.vue';
 
 // 数据定义
@@ -134,7 +146,7 @@ const icoFileInfo = ref(null);
 const updateIcoInfo = async (fileName) => {
   const res = await getImageInfo(fileName)
   icoFileInfo.value = null
-  if (res){
+  if (res) {
     icoFileInfo.value = {
       imageCount: res.data.length,
       images: res.data
@@ -223,7 +235,7 @@ const processSingleSize = async () => {
 // 获取多个单尺寸的ICO压缩包
 const processMultiSize = async () => {
   icoFileInfo.value = null;
-  
+
   const response = await uploadFileZip(imageFile.value, selectedSizes.value);
 
   if (!response.headers['content-type']?.includes('application/zip')) {
@@ -239,8 +251,8 @@ const processMultiSize = async () => {
 }
 
 // 下载文件
-const handleDownload = ({ data, fileName, blobType }) => {
-  const blob = new Blob([data], { type: blobType });
+const handleDownload = ({data, fileName, blobType}) => {
+  const blob = new Blob([data], {type: blobType});
   const url = URL.createObjectURL(blob);
 
   const link = document.createElement('a');
@@ -329,7 +341,8 @@ const resetForm = () => {
 }
 
 .settings {
-  width: 300px;}
+  width: 300px;
+}
 
 .settings h3 {
   margin-bottom: 15px;
@@ -459,6 +472,7 @@ const resetForm = () => {
   .github-corner:hover .octo-arm {
     animation: none;
   }
+
   .github-corner .octo-arm {
     animation: octocat-wave 560ms ease-in-out;
   }
