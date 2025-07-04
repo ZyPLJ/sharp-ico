@@ -1,0 +1,343 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="免费在线图片转ICO工具，一键将PNG/JPG转换为ICO图标，支持多种尺寸，无需下载软件，快速生成 favicon.ico 文件。" />
+    <meta name="keywords" content="图片转ICO,在线ICO转换,PNG转ICO,JPG转ICO,favicon生成,ICO图标制作" />
+    <link rel="icon" type="image/x-icon" href="./logo.ico" />
+    <title>免费在线图片转ICO工具 | 一键生成图标文件</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdn.jsdelivr.net/npm/font-awesome@4.7.0/css/font-awesome.min.css" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#4F46E5',
+                        secondary: '#8B5CF6',
+                        accent: '#EC4899',
+                        light: '#F8FAFC',
+                        dark: '#1F2937'
+                    },
+                    fontFamily: {
+                        inter: ['Inter', 'system-ui', 'sans-serif'],
+                    },
+                }
+            }
+        }
+    </script>
+    <style type="text/tailwindcss">
+        @layer utilities {
+            .content-auto {
+                content-visibility: auto;
+            }
+            .text-shadow {
+                text-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            }
+            .card-hover {
+                transition: all 0.3s ease;
+            }
+            .card-hover:hover {
+                transform: translateY(-5px);
+                box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+            }
+            .gradient-bg {
+                background: linear-gradient(135deg, #4F46E5 0%, #8B5CF6 100%);
+            }
+            .rotate-180 {
+                transform: rotate(180deg);
+            }
+        }
+    </style>
+</head>
+<body class="font-inter bg-light text-dark min-h-screen flex flex-col">
+    <!-- 导航栏 -->
+    <header class="sticky top-0 z-50 bg-white/90 backdrop-blur-sm shadow-sm transition-all duration-300">
+        <div class="container mx-auto px-4 py-4 flex justify-between items-center">
+            <div class="flex items-center space-x-2">
+                <img src="./logo48.ico" alt="SharpIcoWeb" class="w-10 h-10 text-primary text-2x" />
+                <h1 class="text-xl font-bold text-dark">
+                    <a href="https://ico.pljzy.top" target="_blank">SharpIcoWeb</a>
+                </h1>
+            </div>
+            <nav class="hidden md:flex space-x-6">
+                <a href="#features" class="text-dark hover:text-primary transition-colors">功能</a>
+                <a href="#how-it-works" class="text-dark hover:text-primary transition-colors">使用方法</a>
+                <a href="#faq" class="text-dark hover:text-primary transition-colors">常见问题</a>
+            </nav>
+            <button class="md:hidden text-dark focus:outline-none">
+                <i class="fa fa-bars text-xl"></i>
+            </button>
+        </div>
+    </header>
+
+    <!-- 头部区域 -->
+    <section class="gradient-bg text-white py-16 md:py-24">
+        <div class="container mx-auto px-4 text-center">
+            <h1 class="text-[clamp(2rem,5vw,3.5rem)] font-bold mb-4 text-shadow">
+                免费在线图片转ICO工具
+            </h1>
+            <p class="text-[clamp(1rem,2vw,1.25rem)] max-w-2xl mx-auto mb-8 opacity-90">
+                一键将PNG/JPG转换为ICO图标，支持多种尺寸，无需下载软件，快速生成favicon.ico文件
+            </p>
+            <div class="flex flex-col sm:flex-row justify-center gap-4 max-w-md mx-auto">
+                <a href="https://ico.pljzy.top" target="_blank" class="bg-white text-primary font-semibold py-3 px-6 rounded-lg shadow-lg hover:shadow-xl transition-all transform hover:-translate-y-1">
+                    <i class="fa fa-upload mr-2"></i>上传图片
+                </a>
+                <a href="https://www.cnblogs.com/ZYPLJ/p/18957808" target="_blank" class="bg-transparent border-2 border-white text-white font-semibold py-3 px-6 rounded-lg hover:bg-white/10 transition-all transform hover:-translate-y-1">
+                    <i class="fa fa-question-circle mr-2"></i>了解更多
+                </a>
+                <button id="bookmark-btn-hero" class="bg-accent hover:bg-accent/90 text-white font-semibold py-3 px-6 rounded-lg shadow-lg hover:shadow-xl transition-all transform hover:-translate-y-1 flex items-center justify-center">
+                    <i class="fa fa-bookmark mr-2"></i>收藏网页
+                </button>
+            </div>
+        </div>
+    </section>
+
+    <!-- 主要功能 -->
+    <section id="features" class="py-16 bg-white">
+        <div class="container mx-auto px-4">
+            <h2 class="text-3xl font-bold text-center mb-12">核心功能</h2>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <!-- 功能卡片1 -->
+                <div class="bg-light rounded-xl p-6 shadow-md card-hover">
+                    <div class="w-14 h-14 bg-primary/10 rounded-full flex items-center justify-center mb-4">
+                        <i class="fa fa-file-image-o text-primary text-2xl"></i>
+                    </div>
+                    <h3 class="text-xl font-bold mb-3">多种格式支持</h3>
+                    <p class="text-gray-600">支持PNG、JPG等常见图片格式转换为ICO图标，满足不同场景需求。</p>
+                </div>
+                
+                <!-- 功能卡片2 -->
+                <div class="bg-light rounded-xl p-6 shadow-md card-hover">
+                    <div class="w-14 h-14 bg-primary/10 rounded-full flex items-center justify-center mb-4">
+                        <i class="fa fa-arrows-alt text-primary text-2xl"></i>
+                    </div>
+                    <h3 class="text-xl font-bold mb-3">多尺寸选择</h3>
+                    <p class="text-gray-600">提供多种标准ICO尺寸(16x16, 32x32, 48x48等)，适配不同设备和平台。</p>
+                </div>
+                
+                <!-- 功能卡片3 -->
+                <div class="bg-light rounded-xl p-6 shadow-md card-hover">
+                    <div class="w-14 h-14 bg-primary/10 rounded-full flex items-center justify-center mb-4">
+                        <i class="fa fa-download text-primary text-2xl"></i>
+                    </div>
+                    <h3 class="text-xl font-bold mb-3">快速生成下载</h3>
+                    <p class="text-gray-600">无需等待，上传后立即生成ICO文件，一键下载到本地，操作简单便捷。</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 使用步骤 -->
+    <section id="how-it-works" class="py-16 bg-gray-50">
+        <div class="container mx-auto px-4">
+            <h2 class="text-3xl font-bold text-center mb-12">使用步骤</h2>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-5xl mx-auto">
+                <!-- 步骤1 -->
+                <div class="bg-white p-6 rounded-xl shadow-md text-center card-hover">
+                    <div class="w-16 h-16 bg-primary rounded-full flex items-center justify-center mx-auto mb-4 text-white text-2xl font-bold">1</div>
+                    <h3 class="text-xl font-bold mb-3">上传图片</h3>
+                    <p class="text-gray-600">点击"上传图片"按钮，从本地选择PNG或JPG格式的图片文件。</p>
+                </div>
+                
+                <!-- 步骤2 -->
+                <div class="bg-white p-6 rounded-xl shadow-md text-center card-hover">
+                    <div class="w-16 h-16 bg-primary rounded-full flex items-center justify-center mx-auto mb-4 text-white text-2xl font-bold">2</div>
+                    <h3 class="text-xl font-bold mb-3">选择尺寸</h3>
+                    <p class="text-gray-600">从下拉菜单中选择需要的ICO图标尺寸，支持多种标准分辨率。</p>
+                </div>
+                
+                <!-- 步骤3 -->
+                <div class="bg-white p-6 rounded-xl shadow-md text-center card-hover">
+                    <div class="w-16 h-16 bg-primary rounded-full flex items-center justify-center mx-auto mb-4 text-white text-2xl font-bold">3</div>
+                    <h3 class="text-xl font-bold mb-3">下载图标</h3>
+                    <p class="text-gray-600">点击"生成ICO"按钮，等待转换完成后即可下载生成的图标文件。</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 优势 -->
+    <section class="py-16 bg-white">
+        <div class="container mx-auto px-4">
+            <h2 class="text-3xl font-bold text-center mb-12">为什么选择我们</h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+                <!-- 优势1 -->
+                <div class="text-center p-4">
+                    <i class="fa fa-check-circle text-primary text-4xl mb-3"></i>
+                    <h3 class="font-bold mb-2">完全免费</h3>
+                    <p class="text-gray-600">所有功能免费使用，无需注册或付费</p>
+                </div>
+                
+                <!-- 优势2 -->
+                <div class="text-center p-4">
+                    <i class="fa fa-cloud text-primary text-4xl mb-3"></i>
+                    <h3 class="font-bold mb-2">在线操作</h3>
+                    <p class="text-gray-600">无需下载安装软件，浏览器直接使用</p>
+                </div>
+                
+                <!-- 优势3 -->
+                <div class="text-center p-4">
+                    <i class="fa fa-shield text-primary text-4xl mb-3"></i>
+                    <h3 class="font-bold mb-2">安全可靠</h3>
+                    <p class="text-gray-600">文件处理完成后自动删除，保护隐私</p>
+                </div>
+                
+                <!-- 优势4 -->
+                <div class="text-center p-4">
+                    <i class="fa fa-mobile text-primary text-4xl mb-3"></i>
+                    <h3 class="font-bold mb-2">多设备支持</h3>
+                    <p class="text-gray-600">兼容PC、手机、平板等各种设备</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 常见问题 -->
+    <section id="faq" class="py-16 bg-gray-50">
+        <div class="container mx-auto px-4">
+            <h2 class="text-3xl font-bold text-center mb-12">常见问题</h2>
+            <div class="max-w-3xl mx-auto space-y-4">
+                <!-- 问题1 -->
+                <div class="bg-white p-5 rounded-lg shadow-sm">
+                    <button class="w-full flex justify-between items-center text-left font-semibold faq-toggle">
+                        <span>支持哪些图片格式转换为ICO？</span>
+                        <i class="fa fa-chevron-down text-primary transition-transform"></i>
+                    </button>
+                    <div class="mt-3 text-gray-600 hidden faq-content">
+                        我们支持PNG、JPG、JPEG、BMP等常见图片格式转换为ICO图标。其中PNG格式由于支持透明通道，转换效果最佳。
+                    </div>
+                </div>
+
+                <!-- 问题2 -->
+                <div class="bg-white p-5 rounded-lg shadow-sm">
+                    <button class="w-full flex justify-between items-center text-left font-semibold faq-toggle">
+                        <span>ICO图标有哪些常用尺寸？</span>
+                        <i class="fa fa-chevron-down text-primary transition-transform"></i>
+                    </button>
+                    <div class="mt-3 text-gray-600 hidden faq-content">
+                        常见的ICO尺寸包括：16x16像素(用于网页favicon)、32x32像素、48x48像素(用于桌面图标)、64x64像素、128x128像素和256x256像素(用于高分辨率屏幕)。我们的工具支持所有这些标准尺寸。
+                    </div>
+                </div>
+
+                <!-- 问题3 -->
+                <div class="bg-white p-5 rounded-lg shadow-sm">
+                    <button class="w-full flex justify-between items-center text-left font-semibold faq-toggle">
+                        <span>转换后的文件会保存多久？</span>
+                        <i class="fa fa-chevron-down text-primary transition-transform"></i>
+                    </button>
+                    <div class="mt-3 text-gray-600 hidden faq-content">
+                        为了保护用户隐私，我们的服务器会在文件转换完成后30分钟内自动删除所有上传的图片和生成的ICO文件。您无需担心文件泄露问题。
+                    </div>
+                </div>
+
+                <!-- 问题4 -->
+                <div class="bg-white p-5 rounded-lg shadow-sm">
+                    <button class="w-full flex justify-between items-center text-left font-semibold faq-toggle">
+                        <span>如何将ICO图标用于网站 favicon？</span>
+                        <i class="fa fa-chevron-down text-primary transition-transform"></i>
+                    </button>
+                    <div class="mt-3 text-gray-600 hidden faq-content">
+                        将生成的favicon.ico文件上传到网站根目录，然后在HTML文档的head部分添加以下代码：
+                        <pre class="bg-gray-100 p-2 rounded text-sm mt-2"><code>&lt;link rel="icon" href="/favicon.ico" type="image/x-icon"&gt;</code></pre>
+                        大多数浏览器会自动检测并显示该图标。
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 行动号召 -->
+    <section class="gradient-bg text-white py-16">
+        <div class="container mx-auto px-4 text-center">
+            <h2 class="text-3xl font-bold mb-6">立即转换您的图片为ICO图标</h2>
+            <p class="max-w-2xl mx-auto mb-8 opacity-90">无需注册，无需下载，完全免费的在线工具，让图标生成变得简单快捷</p>
+            <a href="https://ico.pljzy.top" target="_blank" class="bg-white text-primary font-semibold py-3 px-8 rounded-lg shadow-lg hover:shadow-xl transition-all transform hover:-translate-y-1 inline-flex items-center">
+                <i class="fa fa-upload mr-2"></i>开始转换
+            </a>
+        </div>
+    </section>
+
+    <!-- 页脚 -->
+    <footer class="bg-dark text-white py-12">
+        <div class="container mx-auto px-4">
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
+                <div>
+                    <div class="flex items-center space-x-2 mb-4">
+                        <i class="fa fa-picture-o text-primary text-2xl"></i>
+                        <h3 class="text-xl font-bold">SharpIcoWeb</h3>
+                    </div>
+                    <p class="text-gray-400">免费在线图片转ICO工具，一键将PNG/JPG转换为ICO图标，支持多种尺寸。</p>
+                </div>
+                
+                <div>
+                    <h4 class="text-lg font-semibold mb-4">快速链接</h4>
+                    <ul class="space-y-2 text-gray-400">
+                        <li><a href="#features" class="hover:text-primary transition-colors">功能介绍</a></li>
+                        <li><a href="#how-it-works" class="hover:text-primary transition-colors">使用方法</a></li>
+                        <li><a href="#faq" class="hover:text-primary transition-colors">常见问题</a></li>
+                    </ul>
+                </div>
+                
+                <div>
+                    <h4 class="text-lg font-semibold mb-4">支持格式</h4>
+                    <ul class="space-y-2 text-gray-400">
+                        <li>PNG 转 ICO</li>
+                        <li>JPG 转 ICO</li>
+                        <li>JPEG 转 ICO</li>
+                        <li>BMP 转 ICO</li>
+                    </ul>
+                </div>
+                
+                <div>
+                    <h4 class="text-lg font-semibold mb-4">联系我们</h4>
+                    <ul class="space-y-2 text-gray-400">
+                        <li class="flex items-center space-x-2"><i class="fa fa-envelope text-primary"></i> 1767992919@qq.com</li>
+					</ul>
+				</div>
+			</div>
+		</div>
+	</footer>
+</body>
+</html>
+<script>
+    // 常见问题展开/收起功能
+    document.querySelectorAll('.faq-toggle').forEach(button => {
+        button.addEventListener('click', () => {
+            const content = button.nextElementSibling;
+            const icon = button.querySelector('i');
+
+            // 切换内容显示
+            content.classList.toggle('hidden');
+
+            // 旋转图标
+            icon.classList.toggle('rotate-180');
+
+            // 切换aria-expanded属性
+            const isExpanded = button.getAttribute('aria-expanded') === 'true';
+            button.setAttribute('aria-expanded', !isExpanded);
+        });
+    });
+    document.getElementById('bookmark-btn-hero').addEventListener('click', function() {
+        const title = document.title || 'SharpIcoWeb - 图片转ICO工具';
+        const url = window.location.href;
+
+        // 根据不同浏览器使用不同的添加书签方法
+        if (window.sidebar && window.sidebar.addPanel) { // Firefox
+            window.sidebar.addPanel(title, url, '');
+        } else if (window.external && ('AddFavorite' in window.external)) { // IE
+            window.external.AddFavorite(url, title);
+        } else if (window.opera && window.print) { // Opera
+            const elem = document.createElement('a');
+            elem.setAttribute('href', url);
+            elem.setAttribute('title', title);
+            elem.setAttribute('rel', 'sidebar');
+            elem.click();
+        } else { // 其他浏览器（Chrome, Safari等）
+            alert('请按 ' + (navigator.userAgent.toLowerCase().indexOf('mac') != -1 ? 'Command/Cmd' : 'Ctrl') +
+                ' + D 键将本页加入书签。');
+        }
+    });
+</script>
