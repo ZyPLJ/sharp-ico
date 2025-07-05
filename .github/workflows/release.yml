@@ -27,6 +27,18 @@ jobs:
           # 排除 .git 目录，压缩当前文件夹为 SharpIcoWeb.zip
           zip -r SharpIcoWeb.zip . -x '*.git*'
 
+      # 3. 自动创建 Release（关键步骤！）
+      - name: 创建 GitHub Release
+        id: create-release  # 用于后续步骤引用输出
+        uses: actions/create-release@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          tag_name: ${{ github.ref_name }}  # 使用触发的 Tag（如 v1.0.0）
+          release_name: Release ${{ github.ref_name }}
+          draft: false
+          prerelease: false
+
       - name: 上传资产
         uses: actions/upload-release-asset@v1  # 官方 action
         env:
