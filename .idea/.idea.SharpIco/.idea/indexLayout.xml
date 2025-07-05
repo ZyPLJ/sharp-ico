@@ -5,6 +5,8 @@
       <Path>sharp-ico-vue</Path>
     </attachedFolders>
     <explicitIncludes>
+      <Path>.git/workflows/release.yml</Path>
+      <Path>.github</Path>
       <Path>SharpIcoWeb/wwwroot/temp</Path>
       <Path>sharp-ico-vue</Path>
     </explicitIncludes>

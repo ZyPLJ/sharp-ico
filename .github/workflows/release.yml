@@ -1,0 +1,43 @@
+name: 发布SharpIcoWeb
+run-name: ${{ github.actor }} 正在发布SharpIcoWeb 🚀
+
+on:
+  push:
+    tags:
+      - "v*.*.*"  # 更明确的版本格式匹配
+      
+# 为整个工作流设置权限
+permissions:
+  contents: write
+  id-token: write
+  issues: write
+
+jobs:
+  build-asset:
+    # 运行环境（推荐最新 Ubuntu）
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4  # 官方 action，用于拉取代码
+        with:
+          fetch-depth: 0  # 获取全部 Git 历史（如需打 Tag 必须设置）
+
+      - name: 创建 .zip 压缩包
+        run: |
+          # 排除 .git 目录，压缩当前文件夹为 SharpIcoWeb.zip
+          zip -r SharpIcoWeb.zip . -x '*.git*'
+
+      - name: 上传资产
+        uses: actions/upload-release-asset@v1  # 官方 action
+        env:
+          # 自动生成的 token，无需额外配置
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          # 动态获取上传 URL（由 GitHub 提供）
+          upload_url: ${{ github.event.release.upload_url }}
+          # 本地压缩包路径
+          asset_path: ./SharpIcoWeb.zip
+          # 资产显示名称（用户下载时看到的名字）
+          asset_name: SharpIcoWeb_v${{ github.event.release.tag_name }}.zip
+          # 文件类型（可选，但建议明确）
+          asset_content_type: application/zip
